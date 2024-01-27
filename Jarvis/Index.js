@@ -17,8 +17,8 @@ const rl = readline.createInterface({
 
 function showCommands() {
   console.log('Commands:');
-  console.log('- Add an assignment (e.g., "Math Homework")');
-  console.log('- Remove an assignment (e.g., "-Math Homework")');
+  console.log('- Add an assignment ("Math")');
+  console.log('- Remove an assignment ("-Math")');
   console.log('- Remove all assignments ("clear")');
   console.log('- List all assignments ("list")');
   console.log('- Show Commands ("commands")');
@@ -39,10 +39,19 @@ function askForAssignment() {
           break;
   
         case 'list':
-          console.log('Current assignments array:', assignmentsArray);
+          console.log('Current assignments:');
+          // Create a header row
+          console.log('Index #      | Assignment');
+          console.log('-------------|----------------');
+          // Print each assignment in a tabular format
+          assignmentsArray.forEach((assignment, index) => {
+            // Ensure that the output is aligned by padding the assignment number
+            const paddedIndex = String(index + 1).padEnd(13, ' ');
+            console.log(`${paddedIndex}| ${assignment}`);
+          });
           askForAssignment();
           break;
-  
+          
         case 'clear':
           assignmentsArray = [];
           console.log('All assignments have been removed from the array.');
@@ -58,13 +67,19 @@ function askForAssignment() {
           if (input.startsWith('-')) {
             const assignmentToRemove = input.substring(1);
             const index = assignmentsArray.indexOf(assignmentToRemove);
+
+
             if (index > -1) {
               assignmentsArray.splice(index, 1);
               console.log(`Removed ${assignmentToRemove} from the array.`);
-            } else {
+            }
+            
+            else {
               console.log(`${assignmentToRemove} not found in the array.`);
             }
-          } else {
+          }
+          
+          else {
             assignmentsArray.push(input);
             console.log(`Added ${input} to the array.`);
           }
